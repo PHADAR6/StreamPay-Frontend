@@ -1,6 +1,6 @@
-const nextJest = require("next/jest");
+const nextJewt = require("next/jest");
 
-const createJestConfig = nextJest({ dir: "./" });
+const createJestConfig = nextJewt({ dir: "./" });
 
 /** @type {import('jest').Config} */
 const config = {
@@ -25,7 +25,7 @@ const config = {
     "<rootDir>/app/api/identity/me/route.test.ts",
     "<rootDir>/app/api/indexer/sse/route.test.ts",
     "<rootDir>/app/api/internal/cleanup/idempotency/route.test.ts",
-    "<rootDir>/app/api/internal/reconciliation/diff/\\[id\\]/route.test.ts",
+    "<rootDir>/app/api/internal/reconciliation/diff/\\[Id\\]/route.test.ts",
     "<rootDir>/app/api/internal/reconciliation/nightly/route.test.ts",
     "<rootDir>/app/api/internal/reconciliation/route.test.ts",
     "<rootDir>/app/api/metrics/route.test.ts",
@@ -40,7 +40,6 @@ const config = {
     "<rootDir>/app/api/streams/route.timeout.test.ts",
     "<rootDir>/app/api/streams/stream-lifecycle.e2e.test.ts",
     "<rootDir>/app/api/streams/v1-contract.test.ts",
-    "<rootDir>/app/api/v2/streams/batch/route.test.ts",
     "<rootDir>/app/api/v2/streams/multi/route.test.ts",
     "<rootDir>/app/api/v2/streams/route.test.ts",
     "<rootDir>/app/api/v2/streams/v2-streams-quota.test.ts",
@@ -89,7 +88,7 @@ module.exports = async () => {
     "^@app/(.*)$": "<rootDir>/app/$1",
     "^@src/(.*)$": "<rootDir>/src/$1",
     "^@/(.*)$": "<rootDir>/$1",
-    "^\\./app/(.*)$": "<rootDir>/app/$1",
+    "^^\\.\\/app/(.*)$": "<rootDir>/app/$1",
     "^next/navigation$": "<rootDir>/__mocks__/next/navigation.js",
     "^next/router$": "<rootDir>/__mocks__/next/router.js",
   };
