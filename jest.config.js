@@ -7,9 +7,7 @@ const config = {
   testEnvironment: "jsdom",
   setupFiles: ["<rootDir>/jest.polyfills.js"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-  // Quarantined suites: these were already failing on main (stale mocks, drifted
-  // fixtures, backend-only behaviour). They are excluded so CI is a trustworthy
-  // signal; fix and remove entries from this list one by one.
+  // Quarantined suites: loaded from jest.quarantine.json
   testPathIgnorePatterns: [
     "/node_modules/",
     "/.next/",
@@ -70,6 +68,9 @@ const config = {
     "<rootDir>/tests/env.test.ts",
     "<rootDir>/tests/integration/exports.test.ts",
     "<rootDir>/tests/streamsShape.test.ts",
+    ...require("./jest.quarantine.json").entries.map(
+      (entry) => `<rootDir>/${entry.path.replace(/\[/g, "\\[").replace(/\]/g, "\\]")}`
+    ),
   ],
   testMatch: ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"],
   collectCoverageFrom: [

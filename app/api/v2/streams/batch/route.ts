@@ -7,6 +7,8 @@ import { transition } from "@/app/lib/state-machine";
 import { patchStreamSchema } from "@/app/lib/validation";
 import { recordPrivilegedStreamAuditEvent } from "@/app/lib/audit";
 import { computeFingerprint } from "@/app/lib/idompotency";
+import { getCorrelationContext } from "@/app/lib/logger";
+import { inferStreamChangeAction, publishStreamChange } from "@/app/lib/stream-publish";
 import type { Stream, StreamAction } from "@/app/types/openapi";
 
 const BATCHABLE_ACTIONS = ["start", "pause", "stop", "settle"] as const;
@@ -332,6 +334,15 @@ export async function POST(req: NextRequest) {
       }
 
       streamRepository.streams.set(item.id, updatedStream as unknown as Stream);
+
+      publishStreamChange({
+        action: inferStreamChangeAction(existing, updatedStream as Stream),
+        actor: req.headers.get("Actor-Wallet-Address") ?? undefined,
+        after: updatedStream as Stream,
+        before: existing,
+        correlationId: getCorrelationContext()?.correlation_id,
+      });
+
       updatedStreams.push(toV2Stream(dbStreamToV1(updatedStream as unknown as Stream)));
 
       if (item.action) {
