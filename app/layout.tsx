@@ -6,6 +6,7 @@ import { ShortcutsOverlayWrapper } from "./components/ShortcutsOverlayWrapper";
 import { SplashScreenWrapper } from "./components/SplashScreenWrapper";
 import { AppBottomNav } from "./components/AppBottomNav";
 import { SiteHeader } from "./components/SiteHeader";
+import { ClientErrorReporter } from "./components/ClientErrorReporter";
 import { getThemeScript } from "./utils/theme-noflash";
 import { headers, cookies } from "next/headers";
 import { resolveLocale, getLocaleDir } from "./i18n/locale";
@@ -36,6 +37,7 @@ export default async function RootLayout({
         />
       </head>
       <body>
+        <ClientErrorReporter />
         <I18nProvider locale={locale}>
           <ToastProvider>
             <SplashScreenWrapper />
